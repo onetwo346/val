@@ -75,6 +75,7 @@ body {
     overflow-x: hidden;
     cursor: none;
     transition: var(--transition-smooth);
+    padding-top: 80px;
 }
 
 /* Custom Cursor */
@@ -100,7 +101,7 @@ body {
 
 /* Floating Navigation */
 .floating-nav {
-    position: absolute;
+    position: fixed;
     top: 2rem;
     right: 2rem;
     background: var(--glass-bg);
@@ -1240,7 +1241,7 @@ body {
         backdrop-filter: blur(20px) !important;
         height: 60px !important;
         max-height: 60px !important;
-        position: fixed !important;
+        margin-bottom: 1rem !important; /* Ensure nav doesn't overlap content */
     }
     
     .hero-section {
@@ -1249,7 +1250,7 @@ body {
         display: flex;
         align-items: center;
         font-size: 16px !important;
-        padding-top: 12rem !important; /* Much more space for 50% font size */
+        padding-top: 25rem !important; /* EXTREME space for 50% font size - increased from 20rem */
     }
     
     .nav-brand {
@@ -1279,12 +1280,14 @@ body {
         margin-left: 0;
         transform: none;
         max-width: 100%;
+        margin-top: 3rem !important; /* Additional push down for mobile */
     }
     
     .hero-badge {
         padding: 0.3rem 1rem;
         font-size: 0.75rem !important;
         margin-bottom: 1rem;
+        margin-top: 2rem !important; /* Additional top margin for mobile */
     }
     
     .hero-title {
@@ -1425,7 +1428,7 @@ body {
     .hero-section {
         padding: 0.5rem;
         font-size: 16px !important;
-        padding-top: 10rem !important; /* Much more space for 50% font size */
+        padding-top: 22rem !important; /* EXTREME space for 50% font size - increased from 18rem */
     }
     
     .hero-title {
