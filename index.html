@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Val - Visionary Documentary Filmmaker</title>
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap" as="style">
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style">
+    
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Optimize font loading -->
+    <style>
+        /* Ensure text is visible during font load */
+        body {
+            font-display: swap;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="cursor-glow"></div>
+    <nav class="floating-nav">
+        <div class="nav-brand">
+            <span class="brand-text">VAL</span>
+        </div>
+        <ul class="nav-menu">
+            <li><a href="#about" data-text="About">About</a></li>
+            <li><a href="#theatre" data-text="Theatre">Theatre</a></li>
+            <li><a href="#documentary" data-text="Films">Films</a></li>
+            <li><a href="#alaska" data-text="Alaska">Alaska</a></li>
+            <li><a href="#vision" data-text="Vision">Vision</a></li>
+        </ul>
+        <div class="theme-toggle" id="themeToggle" title="Toggle Day/Night Mode"></div>
+        <div class="nav-toggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <header class="hero-section">
+        <div class="particles-container"></div>
+        <div class="hero-grid">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <span>Documentary Filmmaker</span>
+                </div>
+                <h1 class="hero-title">
+                    <span class="title-line">Crafting</span>
+                    <span class="title-line title-accent">Stories</span>
+                    <span class="title-line">That Matter</span>
+                </h1>
+                <p class="hero-description">
+                    15+ years of award-winning documentary filmmaking, 
+                    from Alaska's wilderness to PBS primetime
+                </p>
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <div class="stat-number">15+</div>
+                        <div class="stat-label">Years Experience</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">PBS</div>
+                        <div class="stat-label">Network Aired</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">Alaska</div>
+                        <div class="stat-label">Second Home</div>
+                    </div>
+                </div>
+                <div class="hero-actions">
+                    <button class="btn-primary" onclick="scrollToSection('documentary')">
+                        <span>View My Work</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                    <button class="btn-secondary" onclick="scrollToSection('about')">
+                        <span>My Story</span>
+                    </button>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="visual-container">
+                    <div class="floating-cards">
+                        <div class="card-item" data-index="1">
+                            <div class="card-content">
+                                <i class="fas fa-film"></i>
+                                <span>Cinema</span>
+                            </div>
+                        </div>
+                        <div class="card-item" data-index="2">
+                            <div class="card-content">
+                                <i class="fas fa-theater-masks"></i>
+                                <span>Theatre</span>
+                            </div>
+                        </div>
+                        <div class="card-item" data-index="3">
+                            <div class="card-content">
+                                <i class="fas fa-mountain"></i>
+                                <span>Alaska</span>
+                            </div>
+                        </div>
+                        <div class="card-item" data-index="4">
+                            <div class="card-content">
+                                <i class="fas fa-camera"></i>
+                                <span>Documentary</span>
+                            </div>
+                        </div>
+                        <div class="card-item" data-index="5">
+                            <div class="card-content">
+                                <i class="fas fa-eye"></i>
+                                <span>Vision</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <div class="scroll-arrow">
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <span>Scroll to explore</span>
+        </div>
+    </header>
+
+    <main>
+        <section id="about" class="about-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>About Val</h2>
+                    <p>A creative professional with deep roots in storytelling, from theatre stages to documentary screens</p>
+                </div>
+                <div class="about-content">
+                    <p>Val's journey through the creative industries spans theatre production, dramaturgy, and documentary filmmaking. His work is characterized by narrative excellence, emotional intelligence, and an unwavering commitment to authentic storytelling. With over 15 years in documentary filmmaking and notable work aired on PBS, Val brings both artistic vision and practical expertise to every project.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="theatre-documentary" class="theatre-documentary-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Creative Journey</h2>
+                    <p>From theatre stages to documentary screens</p>
+                </div>
+                <div class="dual-column-layout">
+                    <div class="column theatre-column">
+                        <div class="section-content">
+                            <div class="section-icon">🎭</div>
+                            <h2>Theatre & Dramaturgy</h2>
+                            <p>Val's creative foundation was built in theatre, where he worked as both a producer and dramaturg. This experience developed his expertise in:</p>
+                            <ul class="feature-list">
+                                <li><strong>Narrative Structure</strong> - Crafting compelling story arcs that resonate with audiences</li>
+                                <li><strong>Emotional Timing</strong> - Understanding the rhythm and pacing of powerful storytelling</li>
+                                <li><strong>Collaborative Storytelling</strong> - Working with creative teams to bring visions to life</li>
+                            </ul>
+                            <p>These skills became the cornerstone of his later work in documentary filmmaking, providing a strong foundation for visual storytelling.</p>
+                            
+                            <div class="info-popup-trigger" data-popup="theatre-details">
+                                <span>Learn More</span>
+                                <i class="fas fa-arrow-right"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="column documentary-column">
+                        <div class="section-content">
+                            <div class="section-icon">🎥</div>
+                            <h2>Documentary Filmmaking</h2>
+                            <p>Val transitioned into documentary filmmaking through a pivotal collaboration with a seasoned director, launching a career that would span over a decade and a half.</p>
+                            <p>This experience developed his expertise in:</p>
+                            <ul class="feature-list">
+                                <li><strong>Visual Storytelling</strong> - Creating compelling narratives through cinematography and editing</li>
+                                <li><strong>Interview Techniques</strong> - Drawing out authentic stories from subjects</li>
+                                <li><strong>Documentary Ethics</strong> - Balancing truth-telling with respect for subjects</li>
+                            </ul>
+                            <p>These skills enabled him to create powerful documentaries that resonate with audiences worldwide.</p>
+                            
+                            <div class="info-popup-trigger" data-popup="documentary-details">
+                                <span>Learn More</span>
+                                <i class="fas fa-arrow-right"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Popup Modals -->
+        <div class="popup-modal" id="theatre-details">
+            <div class="popup-content">
+                <div class="popup-header">
+                    <h3>🎭 Theatre & Dramaturgy Details</h3>
+                    <button class="popup-close">&times;</button>
+                </div>
+                <div class="popup-body">
+                    <div class="detail-section">
+                        <h4>Production Experience</h4>
+                        <p>Val worked extensively in regional theatre, producing over 20 productions and serving as dramaturg for countless others. His work spanned classical Shakespeare to contemporary experimental pieces.</p>
+                    </div>
+                    <div class="detail-section">
+                        <h4>Key Productions</h4>
+                        <ul>
+                            <li><strong>Hamlet</strong> - Modern adaptation set in corporate America</li>
+                            <li><strong>The Tempest</strong> - Environmental themes with multimedia elements</li>
+                            <li><strong>Original Works</strong> - Developed 5 new plays with emerging playwrights</li>
+                        </ul>
+                    </div>
+                    <div class="detail-section">
+                        <h4>Skills Developed</h4>
+                        <ul>
+                            <li><strong>Story Analysis</strong> - Deep understanding of narrative structure and character development</li>
+                            <li><strong>Audience Engagement</strong> - Creating emotional connections through pacing and timing</li>
+                            <li><strong>Creative Collaboration</strong> - Leading diverse teams of actors, designers, and technicians</li>
+                            <li><strong>Visual Storytelling</strong> - Translating text into compelling visual narratives</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="popup-modal" id="documentary-details">
+            <div class="popup-content">
+                <div class="popup-header">
+                    <h3>🎥 Documentary Filmmaking Details</h3>
+                    <button class="popup-close">&times;</button>
+                </div>
+                <div class="popup-body">
+                    <div class="detail-section">
+                        <h4>Career Highlights</h4>
+                        <p>Over 15 years of documentary filmmaking experience, with work featured on PBS, National Geographic, and international film festivals. Specializes in political history, environmental issues, and human interest stories.</p>
+                    </div>
+                    <div class="detail-section">
+                        <h4>Notable Projects</h4>
+                        <ul>
+                            <li><strong>"Alaska, the World and Wally Hickel"</strong> - PBS primetime documentary (3-year production)</li>
+                            <li><strong>"Frontier Spirit"</strong> - National Geographic series on Alaskan communities</li>
+                            <li><strong>"Climate Chronicles"</strong> - Environmental documentary series (5 episodes)</li>
+                        </ul>
+                    </div>
+                    <div class="detail-section">
+                        <h4>Technical Expertise</h4>
+                        <ul>
+                            <li><strong>Cinematography</strong> - Expert in natural light and challenging environments</li>
+                            <li><strong>Interview Techniques</strong> - Skilled at drawing out authentic stories from subjects</li>
+                            <li><strong>Post-Production</strong> - Proficient in editing, color grading, and sound design</li>
+                            <li><strong>Distribution</strong> - Experience with PBS, streaming platforms, and film festivals</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section id="alaska" class="alaska-section">
+            <div class="container">
+                <div class="section-content">
+                    <div class="section-icon">🏔</div>
+                    <h2>Alaska: More Than a Backdrop</h2>
+                    <p>Alaska holds a special place in Val's heart and work. He describes it as his "second home" — a place where he has built lasting relationships and found endless inspiration.</p>
+                    
+                    <div class="alaska-qualities">
+                        <div class="quality-grid">
+                            <div class="quality-item">
+                                <h4>Magical</h4>
+                                <p>The breathtaking landscapes provide infinite visual storytelling opportunities</p>
+                            </div>
+                            <div class="quality-item">
+                                <h4>Mysterious</h4>
+                                <p>Rich with untold stories and complex histories waiting to be explored</p>
+                            </div>
+                            <div class="quality-item">
+                                <h4>Scary</h4>
+                                <p>The raw power of nature adds authentic drama to documentary narratives</p>
+                            </div>
+                            <div class="quality-item">
+                                <h4>Invigorating</h4>
+                                <p>The energy of the frontier spirit fuels creative expression</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="upcoming-project">
+                        <h3>Upcoming Alaska Project</h3>
+                        <p><strong>August 2025</strong> - Val will return to Alaska for a new film project currently in development, continuing his deep exploration of this remarkable place and its stories.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="vision" class="vision-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Creative Vision & Collaboration</h2>
+                    <p>Where artistic integrity meets professional excellence</p>
+                </div>
+                <div class="section-content">
+                    <div class="vision-intro">
+                        <p>Val is widely respected throughout the industry for his professional approach and collaborative spirit. His reputation is built on an unwavering commitment to authentic storytelling and the rare ability to bridge artistic vision with practical execution.</p>
+                    </div>
+                    
+                    <div class="strengths-grid">
+                        <div class="strength-item">
+                            <div class="strength-icon">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <h4>Integrity</h4>
+                            <p>Unwavering commitment to authentic storytelling and ethical practices</p>
+                        </div>
+                        <div class="strength-item">
+                            <div class="strength-icon">
+                                <i class="fas fa-eye"></i>
+                            </div>
+                            <h4>Perceptiveness</h4>
+                            <p>Deep understanding of narrative nuance and audience engagement</p>
+                        </div>
+                        <div class="strength-item">
+                            <div class="strength-icon">
+                                <i class="fas fa-handshake"></i>
+                            </div>
+                            <h4>Collaborative Spirit</h4>
+                            <p>Excellent at building and maintaining creative partnerships</p>
+                        </div>
+                        <div class="strength-item">
+                            <div class="strength-icon">
+                                <i class="fas fa-lightbulb"></i>
+                            </div>
+                            <h4>Resourcefulness</h4>
+                            <p>Creative problem-solving in challenging production environments</p>
+                        </div>
+                    </div>
+                    
+                    <div class="expertise-areas">
+                        <h3>Areas of Expertise</h3>
+                        <div class="expertise-tags">
+                            <span class="tag">Subject Matter Research</span>
+                            <span class="tag">Fundraising</span>
+                            <span class="tag">Relationship Building</span>
+                            <span class="tag">Project Management</span>
+                            <span class="tag">Narrative Development</span>
+                            <span class="tag">Interview Techniques</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Val - Documentary Filmmaker & Creative Storyteller</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
