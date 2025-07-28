@@ -65,7 +65,7 @@ class PortfolioApp {
         document.addEventListener('mousemove', handleMouseMove);
 
         // Enhanced cursor for interactive elements
-        const interactiveElements = document.querySelectorAll('button, a, .card-item, .info-popup-trigger, .gallery-item');
+        const interactiveElements = document.querySelectorAll('button, a, .card-item, .info-popup-trigger, .gallery-card');
         interactiveElements.forEach(el => {
             el.addEventListener('mouseenter', () => {
                 if (this.cursor) {
@@ -295,7 +295,7 @@ class PortfolioApp {
         }, observerOptions);
 
         // Observe all sections with debouncing
-        const sections = document.querySelectorAll('section, .featured-work, .hero-content, .gallery-item');
+        const sections = document.querySelectorAll('section, .featured-work, .hero-content, .gallery-card');
         sections.forEach(el => {
             observer.observe(el);
         });
@@ -306,14 +306,14 @@ class PortfolioApp {
         if (this.isMobile) {
             // Simplified animations for mobile
             requestAnimationFrame(() => {
-                target.querySelectorAll('.quality-item, .strength-item, .stat-item, .tag, .gallery-item').forEach(item => {
+                target.querySelectorAll('.quality-item, .strength-item, .stat-item, .tag, .gallery-card').forEach(item => {
                     item.style.opacity = '1';
                     item.style.transform = 'translateY(0) scale(1)';
                 });
             });
         } else {
             // Full animations for desktop
-            const items = target.querySelectorAll('.quality-item, .strength-item, .stat-item, .gallery-item');
+            const items = target.querySelectorAll('.quality-item, .strength-item, .stat-item, .gallery-card');
             items.forEach((item, index) => {
                 setTimeout(() => {
                     requestAnimationFrame(() => {
@@ -545,7 +545,7 @@ class PortfolioApp {
     }
 
     setupGallery() {
-        const galleryItems = document.querySelectorAll('.gallery-item');
+        const galleryCards = document.querySelectorAll('.gallery-card');
         const lightbox = document.querySelector('#lightbox');
         const lightboxImage = document.querySelector('#lightbox-image');
         const closeButton = document.querySelector('.lightbox-close');
@@ -566,8 +566,8 @@ class PortfolioApp {
         let currentIndex = 0;
         const images = [];
 
-        galleryItems.forEach(item => {
-            const img = item.querySelector('img');
+        galleryCards.forEach(card => {
+            const img = card.querySelector('img');
             if (img) {
                 images.push(img.src);
             }
@@ -595,10 +595,24 @@ class PortfolioApp {
             lightboxImage.src = images[currentIndex];
         }
 
-        galleryItems.forEach((item, index) => {
-            item.addEventListener('click', () => {
+        galleryCards.forEach((card, index) => {
+            // Add touch-friendly interactions
+            card.addEventListener('click', () => {
                 openLightbox(index);
             });
+            
+            // Add touch feedback for mobile devices
+            if ('ontouchstart' in window) {
+                card.addEventListener('touchstart', () => {
+                    card.style.transform = 'scale(0.98)';
+                }, { passive: true });
+                
+                card.addEventListener('touchend', () => {
+                    setTimeout(() => {
+                        card.style.transform = '';
+                    }, 150);
+                }, { passive: true });
+            }
         });
 
         closeButton.addEventListener('click', closeLightbox);
@@ -622,6 +636,35 @@ class PortfolioApp {
                 }
             }
         });
+
+        // Add swipe gesture support for mobile
+        if ('ontouchstart' in window) {
+            let touchStartX = 0;
+            let touchEndX = 0;
+            const minSwipeDistance = 50;
+
+            lightbox.addEventListener('touchstart', (e) => {
+                touchStartX = e.changedTouches[0].screenX;
+            }, { passive: true });
+
+            lightbox.addEventListener('touchend', (e) => {
+                touchEndX = e.changedTouches[0].screenX;
+                
+                if (lightbox.classList.contains('active')) {
+                    const swipeDistance = touchStartX - touchEndX;
+                    
+                    if (Math.abs(swipeDistance) > minSwipeDistance) {
+                        if (swipeDistance > 0) {
+                            // Swipe left - next image
+                            showNextImage();
+                        } else {
+                            // Swipe right - previous image
+                            showPrevImage();
+                        }
+                    }
+                }
+            }, { passive: true });
+        }
     }
 
     bindEvents() {
@@ -750,9 +793,15 @@ class PortfolioApp {
     }
 
     setupMobileOptimizations() {
-        // Disable animations that might cause performance issues on mobile
-        document.querySelectorAll('.floating-cards .card-item').forEach(card => {
-            card.style.animation = 'none';
+        // Disable heavy animations on mobile for better performance
+        document.querySelectorAll('.floating-cards .card-item, .gallery-card').forEach(card => {
+            if (card.classList.contains('gallery-card')) {
+                // Simplify gallery card animations on mobile
+                card.style.transform = 'none';
+                card.style.animation = 'none';
+            } else {
+                card.style.animation = 'none';
+            }
         });
 
         // Use passive event listeners for better scroll performance
