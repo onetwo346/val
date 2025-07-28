@@ -33,6 +33,7 @@
             <li role="none"><a href="#theatre" data-text="Theatre" role="menuitem">Theatre</a></li>
             <li role="none"><a href="#documentary" data-text="Films" role="menuitem">Films</a></li>
             <li role="none"><a href="#alaska" data-text="Alaska" role="menuitem">Alaska</a></li>
+            <li role="none"><a href="#gallery" data-text="Gallery" role="menuitem">Gallery</a></li>
             <li role="none"><a href="#vision" data-text="Vision" role="menuitem">Vision</a></li>
         </ul>
         <div class="theme-toggle" id="themeToggle" title="Toggle Day/Night Mode" role="button" tabindex="0" aria-label="Toggle theme"></div>
@@ -290,6 +291,66 @@
                 </div>
             </div>
         </section>
+
+        <section id="gallery" class="gallery-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Recent Captures</h2>
+                    <p>Moments from the field - behind the scenes and stunning visuals</p>
+                </div>
+                <div class="gallery-grid">
+                    <div class="gallery-item" data-image="1">
+                        <div class="image-container">
+                            <img src="IMG_8504.png" alt="Documentary production scene" loading="lazy">
+                            <div class="image-overlay">
+                                <div class="overlay-content">
+                                    <i class="fas fa-expand-alt"></i>
+                                    <span>View Full Size</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="gallery-item" data-image="2">
+                        <div class="image-container">
+                            <img src="IMG_8505.png" alt="Behind the scenes moment" loading="lazy">
+                            <div class="image-overlay">
+                                <div class="overlay-content">
+                                    <i class="fas fa-expand-alt"></i>
+                                    <span>View Full Size</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="gallery-item" data-image="3">
+                        <div class="image-container">
+                            <img src="IMG_8506.png" alt="Creative production shot" loading="lazy">
+                            <div class="image-overlay">
+                                <div class="overlay-content">
+                                    <i class="fas fa-expand-alt"></i>
+                                    <span>View Full Size</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Image Lightbox Modal -->
+        <div class="lightbox-modal" id="lightbox">
+            <div class="lightbox-content">
+                <div class="lightbox-header">
+                    <button class="lightbox-close">&times;</button>
+                </div>
+                <div class="lightbox-body">
+                    <img src="" alt="" id="lightbox-image">
+                    <div class="lightbox-nav">
+                        <button class="lightbox-prev" aria-label="Previous image"><i class="fas fa-chevron-left"></i></button>
+                        <button class="lightbox-next" aria-label="Next image"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <section id="vision" class="vision-section">
             <div class="container">

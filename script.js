@@ -17,10 +17,10 @@ class PortfolioApp {
 
     init() {
         try {
-            // Only setup cursor on desktop
-            if (!this.isMobile) {
-                this.setupCursor();
-            }
+                    // Only setup cursor on desktop
+        if (!this.isMobile && window.innerWidth > 768) {
+            this.setupCursor();
+        }
             
             // Reduce particle count on mobile
             this.setupParticles();
@@ -30,6 +30,7 @@ class PortfolioApp {
             this.setupHeroAnimations();
             this.setupMobileMenu();
             this.setupPopupModals();
+            this.setupGallery();
             this.bindEvents();
             this.startAnimations();
             
@@ -64,7 +65,7 @@ class PortfolioApp {
         document.addEventListener('mousemove', handleMouseMove);
 
         // Enhanced cursor for interactive elements
-        const interactiveElements = document.querySelectorAll('button, a, .card-item, .info-popup-trigger');
+        const interactiveElements = document.querySelectorAll('button, a, .card-item, .info-popup-trigger, .gallery-item');
         interactiveElements.forEach(el => {
             el.addEventListener('mouseenter', () => {
                 if (this.cursor) {
@@ -294,7 +295,7 @@ class PortfolioApp {
         }, observerOptions);
 
         // Observe all sections with debouncing
-        const sections = document.querySelectorAll('section, .featured-work, .hero-content');
+        const sections = document.querySelectorAll('section, .featured-work, .hero-content, .gallery-item');
         sections.forEach(el => {
             observer.observe(el);
         });
@@ -305,14 +306,14 @@ class PortfolioApp {
         if (this.isMobile) {
             // Simplified animations for mobile
             requestAnimationFrame(() => {
-                target.querySelectorAll('.quality-item, .strength-item, .stat-item, .tag').forEach(item => {
+                target.querySelectorAll('.quality-item, .strength-item, .stat-item, .tag, .gallery-item').forEach(item => {
                     item.style.opacity = '1';
                     item.style.transform = 'translateY(0) scale(1)';
                 });
             });
         } else {
             // Full animations for desktop
-            const items = target.querySelectorAll('.quality-item, .strength-item, .stat-item');
+            const items = target.querySelectorAll('.quality-item, .strength-item, .stat-item, .gallery-item');
             items.forEach((item, index) => {
                 setTimeout(() => {
                     requestAnimationFrame(() => {
@@ -539,6 +540,86 @@ class PortfolioApp {
                         document.body.style.overflow = '';
                     }
                 });
+            }
+        });
+    }
+
+    setupGallery() {
+        const galleryItems = document.querySelectorAll('.gallery-item');
+        const lightbox = document.querySelector('#lightbox');
+        const lightboxImage = document.querySelector('#lightbox-image');
+        const closeButton = document.querySelector('.lightbox-close');
+        const prevButton = document.querySelector('.lightbox-prev');
+        const nextButton = document.querySelector('.lightbox-next');
+
+        if (!lightbox || !lightboxImage || !closeButton || !prevButton || !nextButton) {
+            console.warn('Lightbox elements not found:', { 
+                lightbox: !!lightbox, 
+                lightboxImage: !!lightboxImage, 
+                closeButton: !!closeButton, 
+                prevButton: !!prevButton, 
+                nextButton: !!nextButton 
+            });
+            return;
+        }
+
+        let currentIndex = 0;
+        const images = [];
+
+        galleryItems.forEach(item => {
+            const img = item.querySelector('img');
+            if (img) {
+                images.push(img.src);
+            }
+        });
+
+        function openLightbox(index) {
+            currentIndex = index;
+            lightboxImage.src = images[currentIndex];
+            lightbox.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            lightbox.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        function showPrevImage() {
+            currentIndex = (currentIndex - 1 + images.length) % images.length;
+            lightboxImage.src = images[currentIndex];
+        }
+
+        function showNextImage() {
+            currentIndex = (currentIndex + 1) % images.length;
+            lightboxImage.src = images[currentIndex];
+        }
+
+        galleryItems.forEach((item, index) => {
+            item.addEventListener('click', () => {
+                openLightbox(index);
+            });
+        });
+
+        closeButton.addEventListener('click', closeLightbox);
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) {
+                closeLightbox();
+            }
+        });
+
+        prevButton.addEventListener('click', showPrevImage);
+        nextButton.addEventListener('click', showNextImage);
+
+        document.addEventListener('keydown', (e) => {
+            if (lightbox.classList.contains('active')) {
+                if (e.key === 'Escape') {
+                    closeLightbox();
+                } else if (e.key === 'ArrowLeft') {
+                    showPrevImage();
+                } else if (e.key === 'ArrowRight') {
+                    showNextImage();
+                }
             }
         });
     }
