@@ -1249,7 +1249,7 @@ body {
         display: flex;
         align-items: center;
         font-size: 16px !important;
-        padding-top: 8rem !important; /* Extra space for 50% font size */
+        padding-top: 12rem !important; /* Much more space for 50% font size */
     }
     
     .nav-brand {
@@ -1425,7 +1425,7 @@ body {
     .hero-section {
         padding: 0.5rem;
         font-size: 16px !important;
-        padding-top: 7rem !important; /* Extra space for 50% font size */
+        padding-top: 10rem !important; /* Much more space for 50% font size */
     }
     
     .hero-title {
