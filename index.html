@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Val - Documentary Filmmaker and Creative Storyteller">
     <title>Val - Visionary Documentary Filmmaker</title>
     
     <!-- Preload critical resources -->
@@ -22,24 +23,24 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <div class="cursor-glow"></div>
-    <nav class="floating-nav">
+    <div class="cursor-glow" aria-hidden="true"></div>
+    <nav class="floating-nav" role="navigation" aria-label="Main navigation">
         <div class="nav-brand">
             <span class="brand-text">VAL</span>
         </div>
-        <ul class="nav-menu">
-            <li><a href="#about" data-text="About">About</a></li>
-            <li><a href="#theatre" data-text="Theatre">Theatre</a></li>
-            <li><a href="#documentary" data-text="Films">Films</a></li>
-            <li><a href="#alaska" data-text="Alaska">Alaska</a></li>
-            <li><a href="#vision" data-text="Vision">Vision</a></li>
+        <ul class="nav-menu" role="menubar">
+            <li role="none"><a href="#about" data-text="About" role="menuitem">About</a></li>
+            <li role="none"><a href="#theatre" data-text="Theatre" role="menuitem">Theatre</a></li>
+            <li role="none"><a href="#documentary" data-text="Films" role="menuitem">Films</a></li>
+            <li role="none"><a href="#alaska" data-text="Alaska" role="menuitem">Alaska</a></li>
+            <li role="none"><a href="#vision" data-text="Vision" role="menuitem">Vision</a></li>
         </ul>
-        <div class="theme-toggle" id="themeToggle" title="Toggle Day/Night Mode"></div>
-        <div class="nav-toggle">
+        <div class="theme-toggle" id="themeToggle" title="Toggle Day/Night Mode" role="button" tabindex="0" aria-label="Toggle theme"></div>
+        <button class="nav-toggle" aria-label="Toggle mobile menu" aria-expanded="false">
             <span></span>
             <span></span>
             <span></span>
-        </div>
+        </button>
     </nav>
 
     <header class="hero-section">

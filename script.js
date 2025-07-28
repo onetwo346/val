@@ -11,12 +11,18 @@ class PortfolioApp {
         this.animationFrameId = null;
         this.particleInterval = null;
         this.reelInterval = null;
+        this.isMobile = window.innerWidth <= 768;
         this.init();
     }
 
     init() {
         try {
-            this.setupCursor();
+            // Only setup cursor on desktop
+            if (!this.isMobile) {
+                this.setupCursor();
+            }
+            
+            // Reduce particle count on mobile
             this.setupParticles();
             this.setupNavigation();
             this.setupThemeToggle();
@@ -26,6 +32,14 @@ class PortfolioApp {
             this.setupPopupModals();
             this.bindEvents();
             this.startAnimations();
+            
+            // Add mobile-specific optimizations
+            if (this.isMobile) {
+                this.setupMobileOptimizations();
+            }
+            
+            // Handle orientation changes
+            this.handleOrientationChange();
         } catch (error) {
             console.error('Portfolio initialization error:', error);
         }
@@ -172,15 +186,47 @@ class PortfolioApp {
             });
         });
 
+        // Setup smart navigation hiding
+        this.lastScrollY = window.scrollY;
+        this.navHideThreshold = 100; // Hide nav after scrolling 100px down
+        
         // Update nav on scroll with throttling
         let scrollTimeout;
         window.addEventListener('scroll', () => {
             if (scrollTimeout) clearTimeout(scrollTimeout);
             scrollTimeout = setTimeout(() => {
                 this.updateActiveNavOnScroll();
-                this.updateNavBackground();
+                this.handleNavVisibility();
             }, 10);
         });
+    }
+
+    handleNavVisibility() {
+        const nav = document.querySelector('.floating-nav');
+        if (!nav) return;
+
+        const currentScrollY = window.scrollY;
+        const scrollingDown = currentScrollY > this.lastScrollY;
+        const scrollingUp = currentScrollY < this.lastScrollY;
+
+        // Show nav at the very top
+        if (currentScrollY < 50) {
+            nav.classList.remove('nav-hidden');
+            nav.classList.add('nav-visible');
+        }
+        // Hide nav when scrolling down past threshold
+        else if (scrollingDown && currentScrollY > this.navHideThreshold) {
+            nav.classList.add('nav-hidden');
+            nav.classList.remove('nav-visible');
+        }
+        // Show nav when scrolling up
+        else if (scrollingUp) {
+            nav.classList.remove('nav-hidden');
+            nav.classList.add('nav-visible');
+        }
+
+        this.lastScrollY = currentScrollY;
+        this.updateNavBackground();
     }
 
     smoothScrollTo(targetId) {
@@ -224,11 +270,9 @@ class PortfolioApp {
         if (!nav) return;
 
         if (window.scrollY > 50) {
-            nav.style.background = 'rgba(255, 255, 255, 0.15)';
-            nav.style.backdropFilter = 'blur(25px)';
+            nav.classList.add('scrolled');
         } else {
-            nav.style.background = 'rgba(255, 255, 255, 0.1)';
-            nav.style.backdropFilter = 'blur(20px)';
+            nav.classList.remove('scrolled');
         }
     }
 
@@ -241,36 +285,53 @@ class PortfolioApp {
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.classList.add('animate-in');
-                    this.triggerSectionAnimations(entry.target);
+                    requestAnimationFrame(() => {
+                        entry.target.classList.add('animate-in');
+                        this.triggerSectionAnimations(entry.target);
+                    });
                 }
             });
         }, observerOptions);
 
-        // Observe all sections
-        document.querySelectorAll('section, .featured-work, .hero-content').forEach(el => {
+        // Observe all sections with debouncing
+        const sections = document.querySelectorAll('section, .featured-work, .hero-content');
+        sections.forEach(el => {
             observer.observe(el);
         });
     }
 
+    // Optimize animation performance
     triggerSectionAnimations(target) {
-        // Stagger animations for grid items
-        const gridItems = target.querySelectorAll('.quality-item, .strength-item, .stat-item');
-        gridItems.forEach((item, index) => {
-            setTimeout(() => {
-                item.style.opacity = '1';
-                item.style.transform = 'translateY(0) scale(1)';
-            }, index * 100);
-        });
+        if (this.isMobile) {
+            // Simplified animations for mobile
+            requestAnimationFrame(() => {
+                target.querySelectorAll('.quality-item, .strength-item, .stat-item, .tag').forEach(item => {
+                    item.style.opacity = '1';
+                    item.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+        } else {
+            // Full animations for desktop
+            const items = target.querySelectorAll('.quality-item, .strength-item, .stat-item');
+            items.forEach((item, index) => {
+                setTimeout(() => {
+                    requestAnimationFrame(() => {
+                        item.style.opacity = '1';
+                        item.style.transform = 'translateY(0) scale(1)';
+                    });
+                }, index * 100);
+            });
 
-        // Animate expertise tags
-        const tags = target.querySelectorAll('.tag');
-        tags.forEach((tag, index) => {
-            setTimeout(() => {
-                tag.style.opacity = '1';
-                tag.style.transform = 'translateY(0) scale(1)';
-            }, index * 80);
-        });
+            const tags = target.querySelectorAll('.tag');
+            tags.forEach((tag, index) => {
+                setTimeout(() => {
+                    requestAnimationFrame(() => {
+                        tag.style.opacity = '1';
+                        tag.style.transform = 'translateY(0) scale(1)';
+                    });
+                }, index * 80);
+            });
+        }
     }
 
     setupHeroAnimations() {
@@ -356,13 +417,79 @@ class PortfolioApp {
     setupMobileMenu() {
         const navToggle = document.querySelector('.nav-toggle');
         const navMenu = document.querySelector('.nav-menu');
+        const nav = document.querySelector('.floating-nav');
+        const mobileLinks = document.querySelectorAll('.nav-menu a');
 
         if (navToggle && navMenu) {
-            navToggle.addEventListener('click', () => {
+            // Toggle menu
+            navToggle.addEventListener('click', (e) => {
+                e.stopPropagation();
                 navMenu.classList.toggle('active');
                 navToggle.classList.toggle('active');
+                
+                // Update ARIA attribute
+                const isExpanded = navMenu.classList.contains('active');
+                navToggle.setAttribute('aria-expanded', isExpanded);
+                
+                // Keep nav visible when menu is open
+                if (isExpanded) {
+                    nav.classList.remove('nav-hidden');
+                    nav.classList.add('nav-visible');
+                    document.body.style.overflow = 'hidden';
+                } else {
+                    document.body.style.overflow = '';
+                }
             });
+
+            // Close menu when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!navMenu.contains(e.target) && !navToggle.contains(e.target)) {
+                    navMenu.classList.remove('active');
+                    navToggle.classList.remove('active');
+                    navToggle.setAttribute('aria-expanded', 'false');
+                    document.body.style.overflow = '';
+                }
+            });
+
+            // Handle mobile link clicks
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    navMenu.classList.remove('active');
+                    navToggle.classList.remove('active');
+                    navToggle.setAttribute('aria-expanded', 'false');
+                    document.body.style.overflow = '';
+                });
+            });
+
+            // Handle touch events for better mobile experience
+            let touchStartY = 0;
+            navMenu.addEventListener('touchstart', (e) => {
+                touchStartY = e.touches[0].clientY;
+            }, { passive: true });
+
+            navMenu.addEventListener('touchmove', (e) => {
+                const touchY = e.touches[0].clientY;
+                const scrollTop = navMenu.scrollTop;
+                const scrollHeight = navMenu.scrollHeight;
+                const clientHeight = navMenu.clientHeight;
+
+                // Prevent default only when scrolling would not be possible
+                if ((scrollTop <= 0 && touchY > touchStartY) || 
+                    (scrollTop + clientHeight >= scrollHeight && touchY < touchStartY)) {
+                    e.preventDefault();
+                }
+            }, { passive: false });
         }
+
+        // Update menu visibility on resize
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768) {
+                navMenu.classList.remove('active');
+                navToggle.classList.remove('active');
+                navToggle.setAttribute('aria-expanded', 'false');
+                document.body.style.overflow = '';
+            }
+        });
     }
 
     setupPopupModals() {
@@ -475,14 +602,6 @@ class PortfolioApp {
         }, 600);
     }
 
-    handleResize() {
-        // Update particle system for new dimensions
-        this.particles.forEach(particle => {
-            if (particle.x > window.innerWidth) particle.x = window.innerWidth - 10;
-            if (particle.y > window.innerHeight) particle.y = window.innerHeight - 10;
-        });
-    }
-
     handleKeyboardNavigation(e) {
         const navLinks = document.querySelectorAll('.nav-menu a');
         const currentActive = document.querySelector('.nav-menu a.active');
@@ -547,6 +666,49 @@ class PortfolioApp {
                 ticking = true;
             }
         });
+    }
+
+    setupMobileOptimizations() {
+        // Disable animations that might cause performance issues on mobile
+        document.querySelectorAll('.floating-cards .card-item').forEach(card => {
+            card.style.animation = 'none';
+        });
+
+        // Use passive event listeners for better scroll performance
+        document.addEventListener('touchstart', () => {}, { passive: true });
+        document.addEventListener('touchmove', () => {}, { passive: true });
+
+        // Reduce particle count and animation complexity
+        this.particles = this.particles.slice(0, 5);
+    }
+
+    handleOrientationChange() {
+        window.addEventListener('orientationchange', () => {
+            // Wait for orientation change to complete
+            setTimeout(() => {
+                // Update layout-related calculations
+                this.handleResize();
+                
+                // Force recalculation of mobile menu position
+                const navMenu = document.querySelector('.nav-menu');
+                if (navMenu && navMenu.classList.contains('active')) {
+                    navMenu.classList.remove('active');
+                    setTimeout(() => navMenu.classList.add('active'), 100);
+                }
+            }, 100);
+        });
+    }
+
+    updateLayoutCalculations() {
+        // Update any height-based calculations
+        const vh = window.innerHeight * 0.01;
+        document.documentElement.style.setProperty('--vh', `${vh}px`);
+
+        // Update hero section height
+        const heroSection = document.querySelector('.hero-section');
+        if (heroSection) {
+            heroSection.style.minHeight = `${window.innerHeight}px`;
+        }
     }
 
     // Cleanup method to prevent memory leaks
