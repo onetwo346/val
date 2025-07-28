@@ -1225,16 +1225,17 @@ body {
 
 @media (max-width: 768px) {
     .floating-nav {
-        top: 1rem;
-        left: 1rem;
-        right: 1rem;
+        top: 0.5rem;
+        left: 0.5rem;
+        right: 0.5rem;
         justify-content: space-between;
-        padding: 0.5rem 1rem;
+        padding: 0.75rem 1rem;
         gap: 1rem;
+        border-radius: 25px;
     }
     
     .nav-brand {
-        font-size: 1.2rem;
+        font-size: 1.1rem;
     }
     
     .nav-menu {
@@ -1247,30 +1248,43 @@ body {
     
     .hero-section {
         min-height: 100vh;
-        padding: 1rem;
+        padding: 1rem 0.5rem;
+        display: flex;
+        align-items: center;
     }
     
     .hero-grid {
         grid-template-columns: 1fr;
-        gap: 2rem;
+        gap: 1.5rem;
         padding: 0;
         text-align: center;
+        max-width: 100%;
     }
     
     .hero-content {
         padding-left: 0;
         margin-left: 0;
         transform: none;
+        max-width: 100%;
+    }
+    
+    .hero-badge {
+        padding: 0.3rem 1rem;
+        font-size: 0.75rem;
+        margin-bottom: 1rem;
     }
     
     .hero-title {
-        font-size: clamp(2rem, 8vw, 3rem);
-        line-height: 1.2;
+        font-size: clamp(1.8rem, 6vw, 2.5rem);
+        line-height: 1.1;
+        margin-bottom: 1rem;
     }
     
     .hero-description {
-        font-size: 1rem;
+        font-size: 0.9rem;
         max-width: 100%;
+        margin-bottom: 1.5rem;
+        line-height: 1.5;
     }
     
     .hero-stats {
@@ -1278,41 +1292,47 @@ body {
         justify-content: center;
         gap: 1rem;
         flex-wrap: wrap;
+        margin-bottom: 1.5rem;
     }
     
     .stat-item {
-        min-width: 80px;
+        min-width: 70px;
+        text-align: center;
     }
     
     .stat-number {
-        font-size: 1.4rem;
+        font-size: 1.2rem;
+        margin-bottom: 0.2rem;
     }
     
     .stat-label {
-        font-size: 0.65rem;
+        font-size: 0.6rem;
+        line-height: 1.2;
     }
     
     .hero-actions {
         flex-direction: column;
         align-items: center;
-        gap: 1rem;
-        margin-top: 2rem;
+        gap: 0.8rem;
+        margin-top: 1.5rem;
     }
     
     .btn-primary,
     .btn-secondary {
         width: 100%;
-        max-width: 250px;
+        max-width: 220px;
         justify-content: center;
-        padding: 0.8rem 1.5rem;
+        padding: 0.75rem 1.2rem;
+        font-size: 0.85rem;
     }
     
+    /* Mobile cards - completely redesigned for clean layout */
     .visual-container {
         position: relative;
-        height: 300px;
+        height: 200px;
         width: 100%;
-        max-width: 280px;
-        margin: 2rem auto 0;
+        max-width: 320px;
+        margin: 1.5rem auto 0;
         right: auto;
         top: auto;
         transform: none;
@@ -1322,63 +1342,49 @@ body {
         position: relative;
         width: 100%;
         height: 100%;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+        gap: 0.5rem;
+        place-items: center;
+        align-content: center;
+        justify-content: center;
     }
     
     .card-item {
-        width: 90px;
-        height: 70px;
-        position: absolute;
+        width: 85px;
+        height: 60px;
+        position: relative;
+        animation: none !important;
+        margin: 0;
     }
     
-    /* Mobile card positioning - much cleaner layout */
-    .card-item[data-index="1"] {
-        top: 10px;
-        left: 50%;
-        transform: translateX(-50%);
-    }
-    
-    .card-item[data-index="2"] {
-        top: 100px;
-        left: 20px;
-    }
-    
-    .card-item[data-index="3"] {
-        top: 100px;
-        right: 20px;
-    }
-    
-    .card-item[data-index="4"] {
-        top: 190px;
-        left: 50%;
-        transform: translateX(-50%);
-    }
-    
-    .card-item[data-index="5"] {
-        top: 280px;
-        left: 50%;
-        transform: translateX(-50%);
+    /* Clean grid layout - cards will auto-position in grid */
+    .card-item {
+        position: relative !important;
+        top: auto !important;
+        left: auto !important;
+        right: auto !important;
+        transform: none !important;
     }
     
     .card-content {
-        font-size: 0.75rem;
-        gap: 0.2rem;
+        font-size: 0.7rem;
+        gap: 0.15rem;
     }
     
     .card-content i {
-        font-size: 1.1rem;
+        font-size: 1rem;
+        margin-bottom: 0.1rem;
     }
     
     .card-content span {
-        font-size: 0.65rem;
-    }
-    
-    /* Disable floating animations on mobile for stability */
-    .card-item {
-        animation: none !important;
+        font-size: 0.6rem;
+        line-height: 1.1;
     }
     
     .card-item:hover {
-        transform: translateY(-5px) scale(1.05);
+        transform: translateY(-3px) scale(1.05);
     }
     
     body {
@@ -1389,83 +1395,109 @@ body {
         display: none;
     }
     
-    /* Improve mobile navigation */
     .theme-toggle {
-        width: 50px;
-        height: 25px;
+        width: 45px;
+        height: 22px;
     }
     
     .theme-toggle::before {
-        width: 21px;
-        height: 21px;
+        width: 18px;
+        height: 18px;
     }
 }
 
 /* Extra small screens */
 @media (max-width: 480px) {
+    .hero-section {
+        padding: 0.5rem;
+    }
+    
     .hero-title {
-        font-size: clamp(1.8rem, 7vw, 2.5rem);
+        font-size: clamp(1.6rem, 5vw, 2.2rem);
+        line-height: 1.1;
     }
     
     .hero-description {
-        font-size: 0.9rem;
+        font-size: 0.85rem;
+        line-height: 1.4;
     }
     
     .hero-stats {
-        gap: 0.8rem;
+        gap: 0.6rem;
+        flex-wrap: wrap;
+    }
+    
+    .stat-item {
+        min-width: 60px;
     }
     
     .stat-number {
-        font-size: 1.2rem;
+        font-size: 1.1rem;
     }
     
     .stat-label {
-        font-size: 0.6rem;
+        font-size: 0.55rem;
+    }
+    
+    .hero-actions {
+        gap: 0.6rem;
+    }
+    
+    .btn-primary,
+    .btn-secondary {
+        max-width: 200px;
+        padding: 0.7rem 1rem;
+        font-size: 0.8rem;
     }
     
     .visual-container {
-        height: 250px;
-        max-width: 240px;
+        height: 180px;
+        max-width: 280px;
+        margin: 1rem auto 0;
+    }
+    
+    .floating-cards {
+        gap: 0.4rem;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(2, 1fr);
     }
     
     .card-item {
         width: 75px;
-        height: 60px;
+        height: 55px;
+        margin: 0;
     }
     
     .card-content {
-        font-size: 0.7rem;
+        font-size: 0.65rem;
+        gap: 0.1rem;
     }
     
     .card-content i {
-        font-size: 1rem;
+        font-size: 0.9rem;
     }
     
     .card-content span {
-        font-size: 0.6rem;
+        font-size: 0.55rem;
     }
     
-    /* Even tighter card positioning for small screens */
-    .card-item[data-index="1"] {
-        top: 5px;
+    .floating-nav {
+        padding: 0.6rem 0.8rem;
+        gap: 0.8rem;
     }
     
-    .card-item[data-index="2"] {
-        top: 80px;
-        left: 15px;
+    .nav-brand {
+        font-size: 1rem;
     }
     
-    .card-item[data-index="3"] {
-        top: 80px;
-        right: 15px;
+    .theme-toggle {
+        width: 40px;
+        height: 20px;
     }
     
-    .card-item[data-index="4"] {
-        top: 155px;
-    }
-    
-    .card-item[data-index="5"] {
-        top: 230px;
+    .theme-toggle::before {
+        width: 16px;
+        height: 16px;
     }
 }
 
