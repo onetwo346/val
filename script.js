@@ -977,6 +977,341 @@ window.addEventListener('beforeunload', () => {
     });
 });
 
+// Contact Form Functionality
+class ContactFormHandler {
+    constructor() {
+        this.form = document.getElementById('contactForm');
+        this.setupForm();
+    }
+
+    setupForm() {
+        if (this.form) {
+            this.form.addEventListener('submit', this.handleSubmit.bind(this));
+            this.setupFormValidation();
+        }
+    }
+
+    setupFormValidation() {
+        const inputs = this.form.querySelectorAll('input, select, textarea');
+        inputs.forEach(input => {
+            input.addEventListener('blur', this.validateField.bind(this));
+            input.addEventListener('input', this.clearErrors.bind(this));
+        });
+    }
+
+    validateField(e) {
+        const field = e.target;
+        const value = field.value.trim();
+        this.clearFieldError(field);
+
+        if (field.hasAttribute('required') && !value) {
+            this.showFieldError(field, 'This field is required');
+            return false;
+        }
+
+        if (field.type === 'email' && value) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(value)) {
+                this.showFieldError(field, 'Please enter a valid email address');
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    showFieldError(field, message) {
+        field.style.borderColor = '#ff6b9d';
+        let errorElement = field.parentNode.querySelector('.field-error');
+        if (!errorElement) {
+            errorElement = document.createElement('div');
+            errorElement.className = 'field-error';
+            errorElement.style.cssText = 'color: #ff6b9d; font-size: 0.8rem; margin-top: 0.5rem;';
+            field.parentNode.appendChild(errorElement);
+        }
+        errorElement.textContent = message;
+    }
+
+    clearFieldError(field) {
+        field.style.borderColor = '';
+        const errorElement = field.parentNode.querySelector('.field-error');
+        if (errorElement) {
+            errorElement.remove();
+        }
+    }
+
+    clearErrors(e) {
+        this.clearFieldError(e.target);
+    }
+
+    async handleSubmit(e) {
+        e.preventDefault();
+        
+        // Validate all fields
+        const inputs = this.form.querySelectorAll('input[required], textarea[required]');
+        let isValid = true;
+        
+        inputs.forEach(input => {
+            if (!this.validateField({ target: input })) {
+                isValid = false;
+            }
+        });
+
+        if (!isValid) {
+            this.showNotification('Please fix the errors above', 'error');
+            return;
+        }
+
+        // Show loading state
+        const submitBtn = this.form.querySelector('button[type="submit"]');
+        const originalText = submitBtn.innerHTML;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+        submitBtn.disabled = true;
+
+        try {
+            // Simulate form submission (replace with actual endpoint)
+            await this.simulateFormSubmission();
+            
+            this.showNotification('Thank you! Your message has been sent successfully.', 'success');
+            this.form.reset();
+        } catch (error) {
+            this.showNotification('Sorry, there was an error sending your message. Please try again.', 'error');
+        } finally {
+            submitBtn.innerHTML = originalText;
+            submitBtn.disabled = false;
+        }
+    }
+
+    async simulateFormSubmission() {
+        // Simulate API call delay
+        return new Promise(resolve => setTimeout(resolve, 2000));
+    }
+
+    showNotification(message, type = 'info') {
+        // Remove existing notifications
+        const existingNotification = document.querySelector('.form-notification');
+        if (existingNotification) {
+            existingNotification.remove();
+        }
+
+        const notification = document.createElement('div');
+        notification.className = `form-notification ${type}`;
+        notification.style.cssText = `
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            background: ${type === 'success' ? '#50c878' : type === 'error' ? '#ff6b9d' : '#00d4ff'};
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            z-index: 10000;
+            animation: slideInRight 0.5s ease;
+            max-width: 400px;
+        `;
+        notification.textContent = message;
+
+        document.body.appendChild(notification);
+
+        // Auto remove after 5 seconds
+        setTimeout(() => {
+            notification.style.animation = 'slideOutRight 0.5s ease';
+            setTimeout(() => notification.remove(), 500);
+        }, 5000);
+    }
+}
+
+// Portfolio Grid Animations
+class PortfolioAnimations {
+    constructor() {
+        this.setupPortfolioAnimations();
+        this.setupTestimonialAnimations();
+    }
+
+    setupPortfolioAnimations() {
+        const portfolioItems = document.querySelectorAll('.portfolio-item');
+        
+        portfolioItems.forEach((item, index) => {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        setTimeout(() => {
+                            entry.target.style.opacity = '1';
+                            entry.target.style.transform = 'translateY(0)';
+                        }, index * 200);
+                    }
+                });
+            }, { threshold: 0.3 });
+
+            item.style.opacity = '0';
+            item.style.transform = 'translateY(50px)';
+            item.style.transition = 'all 0.8s cubic-bezier(0.23, 1, 0.32, 1)';
+            
+            observer.observe(item);
+        });
+    }
+
+    setupTestimonialAnimations() {
+        const testimonials = document.querySelectorAll('.testimonial-card');
+        
+        testimonials.forEach((card, index) => {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        setTimeout(() => {
+                            entry.target.style.opacity = '1';
+                            entry.target.style.transform = 'translateY(0) scale(1)';
+                        }, index * 150);
+                    }
+                });
+            }, { threshold: 0.2 });
+
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px) scale(0.95)';
+            card.style.transition = 'all 0.6s cubic-bezier(0.23, 1, 0.32, 1)';
+            
+            observer.observe(card);
+        });
+    }
+}
+
+// Service Cards Hover Effects
+class ServiceEffects {
+    constructor() {
+        this.setupServiceCards();
+    }
+
+    setupServiceCards() {
+        const serviceCards = document.querySelectorAll('.service-card');
+        
+        serviceCards.forEach(card => {
+            card.addEventListener('mouseenter', this.handleCardHover.bind(this));
+            card.addEventListener('mouseleave', this.handleCardLeave.bind(this));
+        });
+    }
+
+    handleCardHover(e) {
+        const card = e.currentTarget;
+        const icon = card.querySelector('.service-icon');
+        
+        // Add a subtle rotation and scale
+        if (icon) {
+            icon.style.transform = 'scale(1.1) rotate(5deg)';
+        }
+        
+        // Add glow effect
+        card.style.boxShadow = '0 25px 50px rgba(102, 126, 234, 0.4)';
+    }
+
+    handleCardLeave(e) {
+        const card = e.currentTarget;
+        const icon = card.querySelector('.service-icon');
+        
+        if (icon) {
+            icon.style.transform = 'scale(1) rotate(0deg)';
+        }
+        
+        card.style.boxShadow = '';
+    }
+}
+
+// Team Member Interactions
+class TeamInteractions {
+    constructor() {
+        this.setupTeamMembers();
+    }
+
+    setupTeamMembers() {
+        const teamMembers = document.querySelectorAll('.team-member');
+        
+        teamMembers.forEach(member => {
+            const image = member.querySelector('.member-image');
+            const overlay = member.querySelector('.member-overlay');
+            
+            if (image && overlay) {
+                member.addEventListener('mouseenter', () => {
+                    overlay.style.opacity = '1';
+                });
+                
+                member.addEventListener('mouseleave', () => {
+                    overlay.style.opacity = '0';
+                });
+            }
+        });
+    }
+}
+
+// Enhanced animations for new sections
+const addNewSectionAnimations = () => {
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes slideOutRight {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
+        
+        .service-card:hover .service-icon {
+            animation: iconBounce 0.6s ease;
+        }
+        
+        @keyframes iconBounce {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.1) rotate(5deg); }
+        }
+        
+        .portfolio-stats .stat {
+            transition: all 0.3s ease;
+        }
+        
+        .portfolio-stats .stat:hover {
+            transform: scale(1.1);
+        }
+        
+        .expertise-tags .tag {
+            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        
+        .expertise-tags .tag:hover {
+            transform: translateY(-2px);
+        }
+    `;
+    document.head.appendChild(style);
+};
+
+// Initialize new functionality
+document.addEventListener('DOMContentLoaded', () => {
+    // Initialize existing portfolio app
+    window.portfolioApp = new PortfolioApp();
+    
+    // Initialize new features
+    new ContactFormHandler();
+    new PortfolioAnimations();
+    new ServiceEffects();
+    new TeamInteractions();
+    
+    // Add enhanced animations
+    addNewSectionAnimations();
+    
+    console.log('Arctic World Media website fully loaded! 🎬');
+});
+
 // Error handling for better stability
 window.addEventListener('error', (e) => {
     console.error('Global error caught:', e.error);
